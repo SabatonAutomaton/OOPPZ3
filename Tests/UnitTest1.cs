@@ -4,6 +4,7 @@ using PZ3;
 using static PZ3.Expression;
 namespace Tests;
 
+//UnaryOperations
 public class UnitTestConstant
 {
     [Fact]
@@ -635,5 +636,316 @@ public class UnitTestArccsch
 
         //Assert
         Assert.Equal($"Arccsch({name})", res);
+    }
+}
+
+//BinaryOperations
+public class UnitTestAddition
+{
+    [Fact]
+    public void Addition_Compute()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 + c2;
+
+        //Act
+        double res = expr.Compute(new Dictionary<string, double>());
+
+        //Assert
+        Assert.Equal(val1 + val2, res);
+    }
+
+    [Fact]
+    public void Addition_ToSrting()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 + c2;
+
+        //Act
+        string res = expr.ToString();
+
+        //Assert
+        Assert.Equal($"({val1} + {val2})", res);
+    }
+}
+public class UnitTestSubtraction
+{
+    [Fact]
+    public void Subtraction_Compute()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 - c2;
+
+        //Act
+        double res = expr.Compute(new Dictionary<string, double>());
+
+        //Assert
+        Assert.Equal(val1 - val2, res);
+    }
+
+    [Fact]
+    public void Subtraction_ToSrting()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 - c2;
+
+        //Act
+        string res = expr.ToString();
+
+        //Assert
+        Assert.Equal($"({val1} - {val2})", res);
+    }
+}
+public class UnitTestMultiplication
+{
+    [Fact]
+    public void Multiplication_Compute()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 * c2;
+
+        //Act
+        double res = expr.Compute(new Dictionary<string, double>());
+
+        //Assert
+        Assert.Equal(val1 * val2, res);
+    }
+
+    [Fact]
+    public void Multiplication_ToSrting()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 * c2;
+
+        //Act
+        string res = expr.ToString();
+
+        //Assert
+        Assert.Equal($"{val1} * {val2}", res);
+    }
+}
+public class UnitTestDivision
+{
+    [Fact]
+    public void Division_Compute()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 / c2;
+
+        //Act
+        double res = expr.Compute(new Dictionary<string, double>());
+
+        //Assert
+        Assert.Equal(val1 / val2, res);
+    }
+
+    [Fact]
+    public void Division_ToSrting()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 / c2;
+
+        //Act
+        string res = expr.ToString();
+
+        //Assert
+        Assert.Equal($"{val1} / {val2}", res);
+    }
+}
+
+//Тесты из задания
+public class UnitTest
+{
+    [Fact]
+    public void Expration_expr1ToString()
+    {
+        //Arrange
+        var x = new Variable("x");
+        var y = new Variable("y");
+        var expr1 = (x - 4) * (3 * x + y * y) / 5;
+
+        //Act
+        var res = expr1.ToString();
+
+        //Assert
+        Assert.Equal($"(x - 4) * (3 * x + y * y) / 5", res);
+    }
+
+    [Fact]
+    public void Expration_expr1Variables()
+    {
+        //Arrange
+        var x = new Variable("x");
+        var y = new Variable("y");
+        var expr1 = (x - 4) * (3 * x + y * y) / 5;
+
+        //Act
+        var res = expr1.Variables;
+
+        //Assert
+        Assert.Equal(["x", "y"], res);
+    }
+
+    [Fact]
+    public void Expration_expr1IsConstant()
+    {
+        //Arrange
+        var x = new Variable("x");
+        var y = new Variable("y");
+        var expr1 = (x - 4) * (3 * x + y * y) / 5;
+
+        //Act
+        var res = expr1.IsConstant;
+
+        //Assert
+        Assert.False(res);
+    }
+
+    [Fact]
+    public void Expration_expr1IsPolynomial()
+    {
+        //Arrange
+        var x = new Variable("x");
+        var y = new Variable("y");
+        var expr1 = (x - 4) * (3 * x + y * y) / 5;
+
+        //Act
+        var res = expr1.IsPolynomial;
+
+        //Assert
+        Assert.True(res);
+    }
+
+    [Fact]
+    public void Expration_expr1Compute()
+    {
+        //Arrange
+        var x = new Variable("x");
+        var y = new Variable("y");
+        var expr1 = (x - 4) * (3 * x + y * y) / 5;
+
+        //Act
+        var res = expr1.Compute(new Dictionary<string, double> { ["x"] = 1, ["y"] = 2 });
+
+        //Assert
+        Assert.Equal(-4.2, res);
+    }
+
+    [Fact]
+    public void Expration_expr2ToString()
+    {
+        //Arrange
+        var c = new Constant(3);
+        var expr2 = (5 - 3 * c) * Sqrt(16 + c * c);
+
+        //Act
+        var res = expr2.ToString();
+
+        //Assert
+        Assert.Equal($"(5 - 3 * 3) * Sqrt((16 + 3 * 3))", res);
+    }
+
+    [Fact]
+    public void Expration_expr2Variables()
+    {
+        //Arrange
+        var c = new Constant(3);
+        var expr2 = (5 - 3 * c) * Sqrt(16 + c * c);
+
+        //Act
+        var res = expr2.Variables;
+
+        //Assert
+        Assert.Equal([], res);
+    }
+
+    [Fact]
+    public void Expration_expr2IsConstant()
+    {
+        //Arrange
+        var c = new Constant(3);
+        var expr2 = (5 - 3 * c) * Sqrt(16 + c * c);
+
+        //Act
+        var res = expr2.IsConstant;
+
+        //Assert
+        Assert.True(res);
+    }
+
+    [Fact]
+    public void Expration_expr2IsPolynomial()
+    {
+        //Arrange
+        var c = new Constant(3);
+        var expr2 = (5 - 3 * c) * Sqrt(16 + c * c);
+
+        //Act
+        var res = expr2.IsPolynomial;
+
+        //Assert
+        Assert.True(res);
+    }
+
+    [Fact]
+    public void Expration_expr2Compute()
+    {
+        //Arrange
+        var c = new Constant(3);
+        var expr2 = (5 - 3 * c) * Sqrt(16 + c * c);
+
+        //Act
+        var res = expr2.Compute(new Dictionary<string, double> { ["x"] = 1, ["y"] = 2 });
+
+        //Assert
+        Assert.Equal(-20, res);
     }
 }
