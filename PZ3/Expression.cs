@@ -23,8 +23,6 @@ namespace PZ3
         public abstract double Compute(IReadOnlyDictionary<string, double> variableValues);
         public abstract override string ToString();
 
-        public static Expression operator +(Expression operand) => operand;
-        public static Expression operator -(Expression operand) => (-1) * operand;
         public static implicit operator Expression(double value) => new Constant(value);
         public static implicit operator Expression(string name) => new Variable(name);
 

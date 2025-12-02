@@ -865,6 +865,21 @@ public class UnitTest
     }
 
     [Fact]
+    public void Expration_expr1PolynomialDegree()
+    {
+        //Arrange
+        var x = new Variable("x");
+        var y = new Variable("y");
+        var expr1 = (x - 4) * (3 * x + y * y) / 5;
+
+        //Act
+        var res = expr1.PolynomialDegree;
+
+        //Assert
+        Assert.Equal(3, res);
+    }
+
+    [Fact]
     public void Expration_expr1Compute()
     {
         //Arrange
@@ -933,6 +948,20 @@ public class UnitTest
 
         //Assert
         Assert.True(res);
+    }
+
+    [Fact]
+    public void Expration_expr2PolynomialDegree()
+    {
+        //Arrange
+        var c = new Constant(3);
+        var expr2 = (5 - 3 * c) * Sqrt(16 + c * c);
+
+        //Act
+        var res = expr2.PolynomialDegree;
+
+        //Assert
+        Assert.Equal(0, res);
     }
 
     [Fact]
