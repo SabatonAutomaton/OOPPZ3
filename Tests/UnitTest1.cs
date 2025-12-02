@@ -502,7 +502,7 @@ public class UnitTestArcsech
         double res = expr.Compute(new Dictionary<string, double>());
 
         //Assert
-        Assert.Equal(0.5 * Math.Log((1 + val) / (val - 1)), res);
+        Assert.Equal(Math.Log((1 + Math.Sqrt(1 - val * val)) / val), res);
     }
 
     [Fact]
@@ -518,7 +518,7 @@ public class UnitTestArcsech
         double res = expr.Compute(new Dictionary<string, double>() { { name, val } });
 
         //Assert
-        Assert.Equal(0.5 * Math.Log((1 + val) / (val - 1)), res);
+        Assert.Equal(Math.Log((1 + Math.Sqrt(1 - val * val)) / val), res);
     }
 
     [Fact]
@@ -549,5 +549,91 @@ public class UnitTestArcsech
 
         //Assert
         Assert.Equal($"Arcsech({name})", res);
+    }
+}
+public class UnitTestArccsch
+{
+    [Fact]
+    public void Arccsch_Compute_Constant_OutOfScope()
+    {
+        //Arrange
+        double val = 0;
+        var c = new Constant(val);
+        Expression expr = Arccsch(c);
+        bool outOfScope = false;
+
+        //Act
+        try
+        {
+            double res = expr.Compute(new Dictionary<string, double>());
+        }
+        catch (Exception ex)
+        {
+            outOfScope = true;
+        }
+
+        //Assert
+        Assert.True(outOfScope);
+    }
+
+    [Fact]
+    public void Arccsch_Compute_Constant_InScope()
+    {
+        //Arrange
+        double val = 0.5;
+        var c = new Constant(val);
+        Expression expr = Arccsch(c);
+
+        //Act
+        double res = expr.Compute(new Dictionary<string, double>());
+
+        //Assert
+        Assert.Equal(Math.Log((1 + Math.Sqrt(1 + val * val)) / val), res);
+    }
+
+    [Fact]
+    public void Arccsch_Compute_Variable()
+    {
+        //Arrange
+        double val = 0.5;
+        string name = "x";
+        var x = new Variable(name);
+        Expression expr = Arccsch(x);
+
+        //Act
+        double res = expr.Compute(new Dictionary<string, double>() { { name, val } });
+
+        //Assert
+        Assert.Equal(Math.Log((1 + Math.Sqrt(1 + val * val)) / val), res);
+    }
+
+    [Fact]
+    public void Arccsch_ToString_Constant()
+    {
+        //Arrange
+        double val = 0.5;
+        var c = new Constant(val);
+        Expression expr = Arccsch(c);
+
+        //Act
+        string res = expr.ToString();
+
+        //Assert
+        Assert.Equal($"Arccsch({val.ToString()})", res);
+    }
+
+    [Fact]
+    public void Arccsch_ToString_Variable()
+    {
+        //Arrange
+        string name = "x";
+        var x = new Variable(name);
+        Expression expr = Arccsch(x);
+
+        //Act
+        string res = expr.ToString();
+
+        //Assert
+        Assert.Equal($"Arccsch({name})", res);
     }
 }
