@@ -23,6 +23,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build PZ3\PZ3.cspoj --configuration Release
     - name: Test
       run: dotnet test tests/Tests.csproj
