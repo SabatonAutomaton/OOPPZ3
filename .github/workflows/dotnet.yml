@@ -21,7 +21,9 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: |
+        dotnet restore PZ3/PZ3.csproj
+        dotnet restore Tests/Tests.csproj
     - name: Build
       run: |
         dotnet build PZ3/PZ3.csproj --configuration Release --no-restore
