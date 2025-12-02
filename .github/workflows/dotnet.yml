@@ -28,16 +28,44 @@ jobs:
         dotnet build PZ3/PZ3.csproj --configuration Release --no-restore
         dotnet build Tests/Tests.csproj --configuration Release --no-restore
         
-    - name: Test with Code Coverage
-      id: coverage-run
+    - name: Test with Code Coverage (простой вывод)
       run: |
-        dotnet test Tests/Tests.csproj \
-          --configuration Release \
-          --no-build \
-          --collect:"XPlat Code Coverage" \
-          --settings coverlet.runsettings \
-          --logger trx \
-          --results-directory TestResults
+        # Способ 2: Используем Coverlet.Console для красивого вывода
+        dotnet tool install --global coverlet.console
+        
+        echo "=== ЗАПУСК ТЕСТОВ С ПОКРЫТИЕМ ==="
+        
+        # Сначала собираем DLL тестов
+        TEST_DLL=$(find Tests/bin/Release -name "Tests.dll" -type f | head -1)
+        
+        if [ -f "$TEST_DLL" ]; then
+          # Используем coverlet.console для красивого вывода
+          coverlet "$TEST_DLL" \
+            --target "dotnet" \
+            --targetargs "test Tests/Tests.csproj --no-build --configuration Release" \
+            --format cobertura \
+            --output "./TestResults/coverage" \
+            --verbosity detailed
+        else
+          # Альтернативный способ
+          dotnet test Tests/Tests.csproj \
+            --configuration Release \
+            --no-build \
+            --collect:"XPlat Code Coverage" \
+            --settings coverlet.runsettings \
+            --logger "console;verbosity=normal"
+        fi
+        
+        echo ""
+        echo "=== КРАТКАЯ СТАТИСТИКА ==="
+        
+        # Простой вывод информации
+        find ./TestResults -name "*.xml" -type f | while read file; do
+          echo "Файл отчета: $(basename "$file")"
+          if grep -q "coverage" "$file"; then
+            echo "Это файл покрытия Coverlet"
+          fi
+        done
           
     - name: Upload coverage report to Codecov
       uses: codecov/codecov-action@v4
