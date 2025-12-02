@@ -21,6 +21,7 @@ namespace PZ3
         public abstract bool IsPolynomial { get; }
         public abstract int PolynomialDegree { get; }
         public abstract double Compute(IReadOnlyDictionary<string, double> variableValues);
+        public abstract override string ToString();
 
         public static Expression operator +(Expression operand) => operand;
         public static Expression operator -(Expression operand) => (-1) * operand;

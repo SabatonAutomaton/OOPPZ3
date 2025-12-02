@@ -20,7 +20,6 @@ namespace PZ3
             this.firstOperand = firstOperand;
             this.secondOperand = secondOperand;
         }
-        public abstract override string ToString();
     }
     public class Addition : BinaryOperation
     {

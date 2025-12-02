@@ -17,19 +17,17 @@ namespace PZ3
         {
             this.operand = operand;
         }
-        public abstract override string ToString();
     }
     public abstract class Function : UnaryOperation
     {
         protected Function(Expression operand) : base(operand) { }
-        public override bool IsPolynomial => false;
+        public override bool IsPolynomial => Operand.IsConstant;
         public override int PolynomialDegree => 0;
     }
     public class Sqrt : Function
     {
         public Sqrt(Expression operand) : base(operand) { }
         public override bool IsConstant => Operand.IsConstant;
-        public override bool IsPolynomial => Operand.IsPolynomial && Operand.PolynomialDegree % 2 == 0;
         public override int PolynomialDegree => Operand.PolynomialDegree / 2;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues) => Math.Sqrt(operand.Compute(variableValues));
         public override string ToString() => $"Sqrt({Operand})";
@@ -60,7 +58,7 @@ namespace PZ3
         public override double Compute(IReadOnlyDictionary<string, double> variableValues)
         {
             if (Math.Abs(Operand.Compute(variableValues)) >= 1) throw new Exception("Аргумент Artanh не принадлежит ОДЗ (|x| < 1)!");
-            return 0.5 * Math.Log(1 + (Operand.Compute(variableValues)) / (1 - Operand.Compute(variableValues)));
+            return 0.5 * Math.Log((1 + Operand.Compute(variableValues)) / (1 - Operand.Compute(variableValues)));
         }
         public override string ToString() => $"Artanh({Operand})";
     }
