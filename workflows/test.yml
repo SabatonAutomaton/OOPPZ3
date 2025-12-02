@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: '9.0.x'
   MIN_COVERAGE: 80  # Минимальное покрытие в %
 
 jobs:
