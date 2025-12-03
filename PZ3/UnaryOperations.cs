@@ -22,12 +22,12 @@ namespace PZ3
     {
         protected Function(Expression operand) : base(operand) { }
         public override bool IsPolynomial => Operand.IsConstant;
+        public override bool IsConstant => Operand.IsConstant;
         public override int PolynomialDegree => 0;
     }
     public class Sqrt : Function
     {
         public Sqrt(Expression operand) : base(operand) { }
-        public override bool IsConstant => Operand.IsConstant;
         public override int PolynomialDegree => Operand.PolynomialDegree / 2;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues) => Math.Sqrt(operand.Compute(variableValues));
         public override string ToString() => $"Sqrt({Operand})";
@@ -35,7 +35,6 @@ namespace PZ3
     public class Arsinh : Function
     {
         public Arsinh(Expression operand) : base(operand) { }
-        public override bool IsConstant => Operand.IsConstant;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues) =>
             Math.Log(Operand.Compute(variableValues) + Math.Sqrt(Operand.Compute(variableValues) * Operand.Compute(variableValues) + 1));
         public override string ToString() => $"Arsinh({Operand})";
@@ -43,7 +42,6 @@ namespace PZ3
     public class Arcosh : Function
     {
         public Arcosh(Expression operand) : base(operand) { }
-        public override bool IsConstant => Operand.IsConstant;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues)
         {
             if (Operand.Compute(variableValues) < 1) throw new Exception("Аргумент Arcosh не принадлежит ОДЗ (x >= 1)!");
@@ -54,7 +52,6 @@ namespace PZ3
     public class Artanh : Function
     {
         public Artanh(Expression operand) : base(operand) { }
-        public override bool IsConstant => Operand.IsConstant;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues)
         {
             if (Math.Abs(Operand.Compute(variableValues)) >= 1) throw new Exception("Аргумент Artanh не принадлежит ОДЗ (|x| < 1)!");
@@ -65,7 +62,6 @@ namespace PZ3
     public class Arcoth : Function
     {
         public Arcoth(Expression operand) : base(operand) { }
-        public override bool IsConstant => Operand.IsConstant;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues)
         {
             if (Math.Abs(Operand.Compute(variableValues)) <= 1) throw new Exception("Аргумент Arcoth не принадлежит ОДЗ (|x| > 1)!");
@@ -76,7 +72,6 @@ namespace PZ3
     public class Arcsech : Function
     {
         public Arcsech(Expression operand) : base(operand) { }
-        public override bool IsConstant => Operand.IsConstant;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues)
         {
             if (Operand.Compute(variableValues) > 1 || Operand.Compute(variableValues) <= 0)
@@ -89,7 +84,6 @@ namespace PZ3
     public class Arccsch : Function
     {
         public Arccsch(Expression operand) : base(operand) { }
-        public override bool IsConstant => Operand.IsConstant;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues)
         {
             if (Operand.Compute(variableValues) > 1 || Operand.Compute(variableValues) <= 0)

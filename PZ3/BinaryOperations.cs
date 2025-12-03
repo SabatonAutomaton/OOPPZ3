@@ -15,6 +15,9 @@ namespace PZ3
         public Expression SecondOperand => secondOperand;
         protected Expression secondOperand;
 
+        public override bool IsConstant => FirstOperand.IsConstant && SecondOperand.IsConstant;
+        public override bool IsPolynomial => FirstOperand.IsPolynomial && SecondOperand.IsPolynomial;
+
         protected BinaryOperation(Expression firstOperand, Expression secondOperand)
         {
             this.firstOperand = firstOperand;
@@ -24,8 +27,7 @@ namespace PZ3
     public class Addition : BinaryOperation
     {
         public Addition(Expression firstOperand, Expression secondOperand) : base(firstOperand, secondOperand) { }
-        public override bool IsConstant => FirstOperand.IsConstant && SecondOperand.IsConstant;
-        public override bool IsPolynomial => FirstOperand.IsPolynomial && SecondOperand.IsPolynomial;
+
         public override int PolynomialDegree => Math.Max(FirstOperand.PolynomialDegree, SecondOperand.PolynomialDegree);
         public override double Compute(IReadOnlyDictionary<string, double> variableValues) =>
             FirstOperand.Compute(variableValues) + SecondOperand.Compute(variableValues);
@@ -35,8 +37,6 @@ namespace PZ3
     public class Subtraction : BinaryOperation
     {
         public Subtraction(Expression firstOperand, Expression secondOperand) : base(firstOperand, secondOperand) { }
-        public override bool IsConstant => FirstOperand.IsConstant && SecondOperand.IsConstant;
-        public override bool IsPolynomial => FirstOperand.IsPolynomial && SecondOperand.IsPolynomial;
         public override int PolynomialDegree => Math.Max(FirstOperand.PolynomialDegree, SecondOperand.PolynomialDegree);
         public override double Compute(IReadOnlyDictionary<string, double> variableValues) =>
             FirstOperand.Compute(variableValues) - SecondOperand.Compute(variableValues);
@@ -45,8 +45,6 @@ namespace PZ3
     public class Multiplication : BinaryOperation
     {
         public Multiplication(Expression firstOperand, Expression secondOperand) : base(firstOperand, secondOperand) { }
-        public override bool IsConstant => FirstOperand.IsConstant && SecondOperand.IsConstant;
-        public override bool IsPolynomial => FirstOperand.IsPolynomial && SecondOperand.IsPolynomial;
         public override int PolynomialDegree => FirstOperand.PolynomialDegree + SecondOperand.PolynomialDegree;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues) =>
             FirstOperand.Compute(variableValues) * SecondOperand.Compute(variableValues);
@@ -55,7 +53,6 @@ namespace PZ3
     public class Division : BinaryOperation
     {
         public Division(Expression firstOperand, Expression secondOperand) : base(firstOperand, secondOperand) { }
-        public override bool IsConstant => FirstOperand.IsConstant && SecondOperand.IsConstant;
         public override bool IsPolynomial =>
             FirstOperand.IsPolynomial && SecondOperand.IsPolynomial && SecondOperand.PolynomialDegree == 0;
         public override int PolynomialDegree => FirstOperand.PolynomialDegree;

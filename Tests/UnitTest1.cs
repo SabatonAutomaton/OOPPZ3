@@ -679,6 +679,45 @@ public class UnitTestAddition
         //Assert
         Assert.Equal($"({val1} + {val2})", res);
     }
+
+    [Fact]
+    public void Addition_IsConstant_ConstConst()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 + c2;
+
+        //Act
+        var res = expr.IsConstant;
+
+        //Assert
+        Assert.True(res);
+    }
+
+    [Fact]
+    public void Addition_IsConstant_ConstVariable()
+    {
+        //Arrange
+        double val1 = 2;
+        var c = new Constant(val1);
+
+        double val2 = 2;
+        string name = "x";
+        var x = new Variable(name);
+
+        Expression expr = c + x;
+
+        //Act
+        var res = expr.IsConstant;
+
+        //Assert
+        Assert.False(res);
+    }
 }
 public class UnitTestSubtraction
 {
