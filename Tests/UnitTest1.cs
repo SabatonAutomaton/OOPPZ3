@@ -706,7 +706,6 @@ public class UnitTestAddition
         double val1 = 2;
         var c = new Constant(val1);
 
-        double val2 = 2;
         string name = "x";
         var x = new Variable(name);
 
@@ -714,6 +713,62 @@ public class UnitTestAddition
 
         //Act
         var res = expr.IsConstant;
+
+        //Assert
+        Assert.False(res);
+    }
+    [Fact]
+    public void Addition_IsConstant_VariableConstant()
+    {
+        //Arrange
+        double val1 = 2;
+        var c = new Constant(val1);
+
+        string name = "x";
+        var x = new Variable(name);
+
+        Expression expr = x + c;
+
+        //Act
+        var res = expr.IsConstant;
+
+        //Assert
+        Assert.False(res);
+    }
+
+    [Fact]
+    public void Addition_IsPolynomial_PolynomPolynom()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c1 + c2;
+
+        //Act
+        var res = expr.IsPolynomial;
+
+        //Assert
+        Assert.True(res);
+    }
+
+    [Fact]
+    public void Addition_IsPolynomial_PolynomNotPolynom()
+    {
+        //Arrange
+        double val1 = 2;
+        var c = new Constant(val1);
+
+        string name = "x";
+        var x = new Variable(name);
+
+        Expression expr = c + Arsinh(x);
+
+        //Act
+        var res = expr.IsPolynomial;
 
         //Assert
         Assert.False(res);
@@ -837,6 +892,63 @@ public class UnitTestDivision
 
         //Assert
         Assert.Equal($"{val1} / {val2}", res);
+    }
+
+    [Fact]
+    public void Division_IsPolynomial_PolynomConst()
+    {
+        //Arrange
+        string name = "x";
+        var x = new Variable(name);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = x / c2;
+
+        //Act
+        var res = expr.IsPolynomial;
+
+        //Assert
+        Assert.True(res);
+    }
+
+    [Fact]
+    public void Division_IsPolynomial_ConstPolynom()
+    {
+        //Arrange
+        string name = "x";
+        var x = new Variable(name);
+
+        double val2 = 2;
+        var c2 = new Constant(val2);
+
+        Expression expr = c2 / x;
+
+        //Act
+        var res = expr.IsPolynomial;
+
+        //Assert
+        Assert.False(res);
+    }
+
+    [Fact]
+    public void Division_IsPolynomial_PolynomPolynom()
+    {
+        //Arrange
+        string name1 = "x";
+        var x = new Variable(name1);
+
+        string name2 = "y";
+        var y = new Variable(name2);
+
+        Expression expr = x / y;
+
+        //Act
+        var res = expr.IsPolynomial;
+
+        //Assert
+        Assert.False(res);
     }
 }
 
