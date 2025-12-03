@@ -9,7 +9,6 @@ namespace PZ3
     public abstract class BinaryOperation : Expression
     {
         public override IEnumerable<string> Variables => FirstOperand.Variables.Union(SecondOperand.Variables);
-
         public Expression FirstOperand => firstOperand;
         protected Expression firstOperand;
         public Expression SecondOperand => secondOperand;

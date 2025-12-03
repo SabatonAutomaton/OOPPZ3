@@ -28,9 +28,8 @@ jobs:
         dotnet build PZ3/PZ3.csproj --configuration Release --no-restore
         dotnet build Tests/Tests.csproj --configuration Release --no-restore
         
-    - name: Test with Code Coverage (простой вывод)
+    - name: Test with Code Coverage
       run: |
-        # Способ 2: Используем Coverlet.Console для красивого вывода
         dotnet tool install --global coverlet.console
         
         echo "=== ЗАПУСК ТЕСТОВ С ПОКРЫТИЕМ ==="
@@ -46,14 +45,6 @@ jobs:
             --format cobertura \
             --output "./TestResults/coverage" \
             --verbosity detailed
-        else
-          # Альтернативный способ
-          dotnet test Tests/Tests.csproj \
-            --configuration Release \
-            --no-build \
-            --collect:"XPlat Code Coverage" \
-            --settings coverlet.runsettings \
-            --logger "console;verbosity=normal"
         fi
         
         echo ""

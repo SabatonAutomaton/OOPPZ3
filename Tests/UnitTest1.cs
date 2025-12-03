@@ -224,10 +224,7 @@ public class UnitTestArcosh
         {
             double res = expr.Compute(new Dictionary<string, double>());
         }
-        catch (Exception ex)
-        {
-            outOfScope = true;
-        }
+        catch (Exception) { outOfScope = true; }
 
         //Assert
         Assert.True(outOfScope);
@@ -310,10 +307,7 @@ public class UnitTestArtanh
         {
             double res = expr.Compute(new Dictionary<string, double>());
         }
-        catch (Exception ex)
-        {
-            outOfScope = true;
-        }
+        catch (Exception) { outOfScope = true; }
 
         //Assert
         Assert.True(outOfScope);
@@ -396,10 +390,7 @@ public class UnitTestArcoth
         {
             double res = expr.Compute(new Dictionary<string, double>());
         }
-        catch (Exception ex)
-        {
-            outOfScope = true;
-        }
+        catch (Exception) { outOfScope = true; }
 
         //Assert
         Assert.True(outOfScope);
@@ -482,10 +473,7 @@ public class UnitTestArcsech
         {
             double res = expr.Compute(new Dictionary<string, double>());
         }
-        catch (Exception ex)
-        {
-            outOfScope = true;
-        }
+        catch (Exception) { outOfScope = true; }
 
         //Assert
         Assert.True(outOfScope);
@@ -568,10 +556,7 @@ public class UnitTestArccsch
         {
             double res = expr.Compute(new Dictionary<string, double>());
         }
-        catch (Exception ex)
-        {
-            outOfScope = true;
-        }
+        catch (Exception) { outOfScope = true; }
 
         //Assert
         Assert.True(outOfScope);
