@@ -1,6 +1,7 @@
 ﻿//using System.Reflection.Metadata;
 using Newtonsoft.Json.Linq;
 using PZ3;
+using System.Reflection.Metadata.Ecma335;
 using static PZ3.Expression;
 namespace Tests;
 
@@ -728,10 +729,10 @@ public class UnitTestAddition
         double val1 = 2;
         var c1 = new Constant(val1);
 
-        double val2 = 2;
-        var c2 = new Constant(val2);
+        string name = "x";
+        var x = new Variable(name);
 
-        Expression expr = c1 + c2;
+        Expression expr = c1 + x;
 
         //Act
         var res = expr.IsPolynomial;
@@ -757,6 +758,24 @@ public class UnitTestAddition
 
         //Assert
         Assert.False(res);
+    }
+    [Fact]
+    public void Addition_PolynomialDegree_01()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        string name = "x";
+        var x = new Variable(name);
+
+        Expression expr = c1 + x;
+
+        //Act
+        var res = expr.PolynomialDegree;
+
+        //Assert
+        Assert.Equal(1, res);
     }
 }
 public class UnitTestSubtraction
@@ -797,6 +816,25 @@ public class UnitTestSubtraction
 
         //Assert
         Assert.Equal($"({val1} - {val2})", res);
+    }
+
+    [Fact]
+    public void Subtraction_PolynomialDegree_01()
+    {
+        //Arrange
+        double val1 = 2;
+        var c1 = new Constant(val1);
+
+        string name = "x";
+        var x = new Variable(name);
+
+        Expression expr = c1 - x;
+
+        //Act
+        var res = expr.PolynomialDegree;
+
+        //Assert
+        Assert.Equal(1, res);
     }
 }
 public class UnitTestMultiplication
