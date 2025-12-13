@@ -23,6 +23,7 @@ namespace PZ3
             this.secondOperand = secondOperand;
         }
     }
+
     public class Addition : BinaryOperation
     {
         public Addition(Expression firstOperand, Expression secondOperand) : base(firstOperand, secondOperand) { }

@@ -18,6 +18,8 @@ namespace PZ3
             this.operand = operand;
         }
     }
+
+    //Исправить подсчёт степени полинома
     public abstract class Function : UnaryOperation
     {
         protected Function(Expression operand) : base(operand) { }
@@ -28,7 +30,6 @@ namespace PZ3
     public class Sqrt : Function
     {
         public Sqrt(Expression operand) : base(operand) { }
-        public override int PolynomialDegree => Operand.PolynomialDegree / 2;
         public override double Compute(IReadOnlyDictionary<string, double> variableValues) => Math.Sqrt(operand.Compute(variableValues));
         public override string ToString() => $"Sqrt({Operand})";
     }
@@ -86,7 +87,7 @@ namespace PZ3
         public Arccsch(Expression operand) : base(operand) { }
         public override double Compute(IReadOnlyDictionary<string, double> variableValues)
         {
-            if (Operand.Compute(variableValues) > 1 || Operand.Compute(variableValues) <= 0)
+            if (Operand.Compute(variableValues) <= 0)
                 throw new Exception("Аргумент Arccsch не принадлежит ОДЗ (x > 0)!");
 
             return Math.Log((1 + Math.Sqrt(1 + Operand.Compute(variableValues) * Operand.Compute(variableValues))) / Operand.Compute(variableValues));

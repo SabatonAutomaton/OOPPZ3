@@ -208,6 +208,20 @@ public class UnitTestArsinh
         //Assert
         Assert.Equal("Arsinh(" + name + ")", res);
     }
+    [Fact]
+    public void Arsinh_PolynomialDegree()
+    {
+        //Arrange
+        string name = "x";
+        var x = new Variable(name);
+        Expression expr = Arsinh(x);
+
+        //Act
+        var res = expr.PolynomialDegree;
+
+        //Assert
+        Assert.Equal(0, res);
+    }
 }
 public class UnitTestArcosh
 {
@@ -218,17 +232,13 @@ public class UnitTestArcosh
         double val = 0.5;
         var c = new Constant(val);
         Expression expr = Arcosh(c);
-        bool outOfScope = false;
+        
 
         //Act
-        try
-        {
-            double res = expr.Compute(new Dictionary<string, double>());
-        }
-        catch (Exception) { outOfScope = true; }
+        var exception = Assert.Throws<Exception>(() => expr.Compute(new Dictionary<string, double>()));
 
         //Assert
-        Assert.True(outOfScope);
+        Assert.Equal("Аргумент Arcosh не принадлежит ОДЗ (x >= 1)!", exception.Message);
     }
 
     [Fact]
@@ -301,17 +311,13 @@ public class UnitTestArtanh
         double val = 2;
         var c = new Constant(val);
         Expression expr = Artanh(c);
-        bool outOfScope = false;
+        
 
         //Act
-        try
-        {
-            double res = expr.Compute(new Dictionary<string, double>());
-        }
-        catch (Exception) { outOfScope = true; }
+        var exception = Assert.Throws<Exception>(() => expr.Compute(new Dictionary<string, double>()));
 
         //Assert
-        Assert.True(outOfScope);
+        Assert.Equal("Аргумент Artanh не принадлежит ОДЗ (|x| < 1)!", exception.Message);
     }
 
     [Fact]
@@ -384,17 +390,13 @@ public class UnitTestArcoth
         double val = 0.5;
         var c = new Constant(val);
         Expression expr = Arcoth(c);
-        bool outOfScope = false;
+        
 
         //Act
-        try
-        {
-            double res = expr.Compute(new Dictionary<string, double>());
-        }
-        catch (Exception) { outOfScope = true; }
+        var exception = Assert.Throws<Exception>(() => expr.Compute(new Dictionary<string, double>()));
 
         //Assert
-        Assert.True(outOfScope);
+        Assert.Equal("Аргумент Arcoth не принадлежит ОДЗ (|x| > 1)!", exception.Message);
     }
 
     [Fact]
@@ -467,17 +469,13 @@ public class UnitTestArcsech
         double val = 2;
         var c = new Constant(val);
         Expression expr = Arcsech(c);
-        bool outOfScope = false;
+        
 
         //Act
-        try
-        {
-            double res = expr.Compute(new Dictionary<string, double>());
-        }
-        catch (Exception) { outOfScope = true; }
+        var exception = Assert.Throws<Exception>(() => expr.Compute(new Dictionary<string, double>()));
 
         //Assert
-        Assert.True(outOfScope);
+        Assert.Equal("Аргумент Arcsech не принадлежит ОДЗ (0 < x <= 1)!", exception.Message);
     }
 
     [Fact]
@@ -550,17 +548,13 @@ public class UnitTestArccsch
         double val = 0;
         var c = new Constant(val);
         Expression expr = Arccsch(c);
-        bool outOfScope = false;
+        
 
         //Act
-        try
-        {
-            double res = expr.Compute(new Dictionary<string, double>());
-        }
-        catch (Exception) { outOfScope = true; }
+        var exception = Assert.Throws<Exception>(() => expr.Compute(new Dictionary<string, double>()));
 
         //Assert
-        Assert.True(outOfScope);
+        Assert.Equal("Аргумент Arccsch не принадлежит ОДЗ (x > 0)!", exception.Message);
     }
 
     [Fact]
@@ -759,6 +753,26 @@ public class UnitTestAddition
         //Assert
         Assert.False(res);
     }
+
+    [Fact]
+    public void Addition_IsPolynomial_NotPolynomPolynom()
+    {
+        //Arrange
+        double val1 = 2;
+        var c = new Constant(val1);
+
+        string name = "x";
+        var x = new Variable(name);
+
+        Expression expr = Arsinh(x) + c;
+
+        //Act
+        var res = expr.IsPolynomial;
+
+        //Assert
+        Assert.False(res);
+    }
+
     [Fact]
     public void Addition_PolynomialDegree_01()
     {
@@ -937,16 +951,16 @@ public class UnitTestDivision
     }
 
     [Fact]
-    public void Division_IsPolynomial_ConstPolynom()
+    public void Division_IsPolynomial_NotPolynomNotPolynom()
     {
         //Arrange
-        string name = "x";
-        var x = new Variable(name);
+        string name1 = "x";
+        var x = new Variable(name1);
 
-        double val2 = 2;
-        var c2 = new Constant(val2);
+        string name2 = "y";
+        var y = new Variable(name2);
 
-        Expression expr = c2 / x;
+        Expression expr = Arccsch(x) / Arccsch(y);
 
         //Act
         var res = expr.IsPolynomial;

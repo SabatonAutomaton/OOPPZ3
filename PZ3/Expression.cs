@@ -24,7 +24,6 @@ namespace PZ3
         public abstract override string ToString();
 
         public static implicit operator Expression(double value) => new Constant(value);
-        public static implicit operator Expression(string name) => new Variable(name);
 
         public static Expression operator +(Expression left, Expression right) => new Addition(left, right);
         public static Expression operator -(Expression left, Expression right) => new Subtraction(left, right);
